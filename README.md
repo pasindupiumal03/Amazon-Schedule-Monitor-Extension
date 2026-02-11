@@ -1,142 +1,58 @@
-# ReactJS Chrome Extension Template
+# Amazon Schedule Monitor Extension
 
-A modern, production-ready template for building Chrome extensions with ReactJS, TailwindCSS, and Webpack.
+A specialized Chrome Extension designed to automate the process of monitoring Amazon hiring pages for available shift schedules.
 
-## Features
+## 🚀 Overview
 
-- ⚛️ **React 18** - Modern React with hooks and functional components
-- 🎨 **TailwindCSS** - Utility-first CSS framework for rapid styling
-- 📦 **Webpack 5** - Modern bundling with development and production configs
-- 🔄 **Hot Reload** - Development mode with file watching
-- 🎯 **Manifest V3** - Latest Chrome extension API
-- 🌟 **Shadow DOM** - Isolated content script rendering
-- 💾 **Storage Controller** - Easy Chrome storage API integration
-- 🔧 **Cross-browser** - Chrome and Firefox compatibility
-- 📱 **Responsive** - Mobile-friendly popup design
+This extension solves the problem of endlessly refreshing Amazon hiring pages waiting for slots to open. It intelligently monitors the page for the "Unable to fetch headcount request" error message and automatically reloads exactly when new schedules become available.
 
-## Project Structure
+### Key Features
 
-```
-├── public/
-│   └── manifest.json          # Extension manifest
-├── src/
-│   ├── popup.jsx             # Extension popup component
-│   ├── popup.html            # Popup HTML template
-│   ├── content.jsx           # Content script entry
-│   ├── background.jsx        # Background service worker
-│   ├── shadowRoot.jsx        # Shadow DOM content injection
-│   ├── App.jsx               # Main app component for content
-│   ├── index.css             # Popup styles
-│   ├── shadow-root.css       # Content script styles
-│   ├── assets/
-│   │   ├── icons/            # Extension icons
-│   │   └── fonts/            # Custom fonts
-│   ├── controllers/
-│   │   └── storageController.js  # Chrome storage utilities
-│   └── utils/
-│       └── browser.js        # Cross-browser compatibility
-├── webpack.config.js         # Base webpack configuration
-├── webpack.dev.js           # Development webpack config
-├── webpack.prod.js          # Production webpack config
-├── babel.config.json        # Babel configuration
-├── tailwind.config.js       # TailwindCSS configuration
-├── postcss.config.js        # PostCSS configuration
-└── package.json             # Dependencies and scripts
-```
+*   **Smart Monitoring**: Checks the page status every 1 second without aggressive reloading.
+*   **Instant Reaction**: triggers a page reload immediately when the "No Schedules" error disappears.
+*   **Anti-Detection**: Designed to mimic human behavior and avoid rate-limiting.
+*   **403 Recovery**: Automatically detects if your IP is temporarily blocked (CloudFront 403) and pauses operations for 60 seconds to recover.
+*   **Background Operation**: Works perfectly while you browse other tabs or minimize the window.
 
-## Getting Started
+## 🛠 Usage
 
-### Prerequisites
+1.  **Install the Extension**:
+    *   Clone this repository.
+    *   Run `npm install` and `npm run build`.
+    *   Load the `dist` folder as an unpacked extension in Chrome (`chrome://extensions`).
 
-- Node.js (v16 or higher)
-- npm or yarn
+2.  **Start Automating**:
+    *   Click the extension icon.
+    *   Paste the Amazon Hiring link (e.g., `https://hiring.amazon.ca/...`).
+    *   Click **Start Automating**.
+    *   The page will open. Leave it open (you can use other tabs).
 
-### Installation
+3.  **How it Works**:
+    *   If no schedules are available (Error visible): It waits effectively.
+    *   If schedules appear (Error gone): It reloads the page instantly to show you the shifts.
 
-1. Clone or download this template
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+## 📦 Project Structure
 
-### Development
+*   `src/popup.jsx`: Modern React UI with glassmorphism design.
+*   `src/content.jsx`: The core logic engine that injects into Amazon pages.
+*   `src/background.jsx`: Service worker for handling extension lifecycle.
+*   `manifest.json`: Configuration V3 manifest.
 
-1. Start development mode with file watching:
-   ```bash
-   npm run dev
-   ```
+## 🔧 Building from Source
 
-2. Load the extension in Chrome:
-   - Open `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked" and select the `dist` folder
+To modify or build the project yourself:
 
-### Production Build
-
-Build for production:
 ```bash
+# Install dependencies
+npm install
+
+# Run development server (watch mode)
+npm run dev
+
+# Build for production
 npm run build
 ```
 
-## Usage
+## ⚠️ Disclaimer
 
-### Popup Extension
-The main popup interface is defined in `src/popup.jsx`. This appears when users click the extension icon.
-
-### Content Script
-Content scripts run on web pages and can inject UI elements. The template includes Shadow DOM setup for isolated styling.
-
-### Background Script
-Background scripts handle extension lifecycle events, API calls, and communication between components.
-
-### Storage
-Use the storage controller for persistent data:
-```javascript
-import { saveToStorage, getFromStorage } from './controllers/storageController.js';
-
-// Save data
-await saveToStorage({ key: 'value' });
-
-// Get data
-const data = await getFromStorage(['key']);
-```
-
-## Customization
-
-### Styling
-- Modify `tailwind.config.js` for theme customization
-- Update `src/index.css` for popup styles
-- Update `src/shadow-root.css` for content script styles
-
-### Permissions
-Add required permissions in `public/manifest.json`:
-```json
-{
-  "permissions": ["storage", "activeTab", "tabs"]
-}
-```
-
-### Icons
-Replace icons in `src/assets/icons/` with your own (16px, 32px, 48px, 64px, 128px).
-
-## Browser Compatibility
-
-- ✅ Chrome (Manifest V3)
-- ✅ Firefox (with minor adjustments)
-- ⚠️ Edge (Chromium-based)
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the ISC License.
-
-## Support
-
-For issues and questions, please create an issue in the repository.
+This tool is for educational purposes. Use responsibly and be aware of website terms of service regarding automated access.
