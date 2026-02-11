@@ -1,7 +1,7 @@
 {
   "name": "Amazon Schedule Monitor",
   "version": "1.0",
-  "description": "",
+  "description": "Automatically monitors Amazon hiring pages for available schedules.",
   "manifest_version": 3,
   "content_scripts": [
     {
